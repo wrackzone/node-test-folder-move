@@ -1,0 +1,18 @@
+{
+        "apiKey" : "<key>",
+        "server": "https://rally1.rallydev.com", 
+        "requestOptions": {
+            "headers": {
+                "X-RallyIntegrationName"   : "Rally Node Test Case Folder Move",  
+                "X-RallyIntegrationVendor" : "Barry Mullan",    
+                "X-RallyIntegrationVersion": "1.0"                    
+            }
+        },
+        "workspace" : "<workspace name>",
+        "source-project" : "<project reference> eg. /project/13464039999",
+        "destination-project" : "<project reference eg. /project/13167879999",
+        "folder-file-name" : "folders.csv",
+        "testcase-file-name" : "testcases.csv",
+        "exclude-projects" : ["Project Name To Exclude"],
+        "parent-test-folder" : "<reference to folder to parent to> eg. /testfolder/47799567999"
+}
