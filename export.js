@@ -23,6 +23,8 @@ var header = ['FormattedID','Name', 'Project', 'Project Name', 'ObjectID', 'Pare
 
 var readAllTestFolders = function(callback) {
 
+	var q = queryUtils.where("Project" , "=" , config["source-project"] )
+
 	restApi.query({
 	    type: 'testfolder', //the type to query
 	    start: 1, //the 1-based start index, defaults to 1
@@ -30,12 +32,12 @@ var readAllTestFolders = function(callback) {
 	    limit: 'Infinity', //the maximum number of results to return- enables auto paging
 	    // order: 'Rank', //how to sort the results
 	    fetch: ['FormattedID','Name', 'Project', 'ObjectID', 'Children','Parent','TestCases'], //the fields to retrieve
-	    query: {}, // queryUtils.where('State', '=', "Open"), //optional filter
+	    query: q,
 	    scope: {
 	        workspace: workspace._ref, // '/workspace/1234' //specify to query entire workspace
 	        project: config['source-project'],
 	        up: false, //true to include parent project results, false otherwise
-	        down: true //true to include child project results, false otherwise
+	        down: false //true to include child project results, false otherwise
 	    },
 	    requestOptions: {} //optional additional options to pass through to request
 	}, function(error, result) {
@@ -132,7 +134,7 @@ var writeFolderAndTestCases = function(folder, writer, tcWriter) {
 
 	// dont write if in excluded folder
 	if (_.indexOf(config["exclude-projects"],folder.Project._refObjectName)==-1) {
-		console.log(folder.Name);
+		console.log(folder.Name,folder.TestCases);
 		writeRecord(folder,writer);
 
 		restApi.query( {
@@ -147,7 +149,7 @@ var writeFolderAndTestCases = function(folder, writer, tcWriter) {
 			} else {
 			}
 		}).fail(function(errors){
-			console.log("errors");
+			console.log("errors",errors);
 		})				
 	}
 
